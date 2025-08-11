@@ -1,32 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta chartset = "UTF-8">
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <!--Internal CSS-->
     <style>
-        body{
+        body {
             background-color: white;
             font-family: Georgia, sans-serif;
-            
+            margin: 0;
+            padding: 0;
+
+            /* Flexbox centering */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        .info{
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: black;
+            background-color: white;
+            display: inline-block;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .info {
             color: darkgreen;
             font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 15px 10px;
+            padding: 12px 25px;
+            background-color: darkblue;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: navy;
+            transform: translateY(-3px);
         }
     </style>
-    
-    <!--External CSS-->
-    <link rel="stylesheet" href="style.css"
-
 </head>
 <body>
 
-    <h1 style = "text-align: center";>About Us</h1>
-    <p class = "info"> We are a small team exploring how CSS works. </p>
-    <a href="home.html">Back to Home</a>
-    <a href="contact.html"> Go to Contact Page</a>
+    <div class="container">
+        <h1>About Us</h1>
+        <p class="info">We are a small team exploring how CSS works.</p>
+
+        <a href="home.html" class="btn">Back to Home</a>
+        <a href="contact.html" class="btn">Go to Contact Page</a>
+    </div>
 
 </body>
 </html>
