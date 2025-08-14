@@ -1,0 +1,8 @@
+<p id="time"></p>
+
+<script>
+    function updateTime() {
+        document.getElementById('time').innerHTML = new Date().toLocaleTimeString();
+    }
+    setInterval(updateTime, 100);
+</script>
