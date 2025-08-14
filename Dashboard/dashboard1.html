@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background: #444;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .sidebar button:hover {
+            background: #555;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        input, select {
+            padding: 5px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <button onclick="showSection('formSection')">User Form</button>
+        <button onclick="showSection('clockSection')">Live Clock</button>
+        <button onclick="showSection('calcSection')">Calculator</button>
+        <button onclick="showSection('bgSection')">Background Color</button>
+        <button onclick="showSection('imgSection')">Image Switcher</button>
+        <button onclick="showSection('behaviorSection')">Behaviors</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        
+        <!-- Form Input Section -->
+        <div class="card" id="formSection">
+            <h2>User Preferences</h2>
+            <form id="userForm">
+                Username: <input type="text" id="username" required><br>
+                Favorite Color: <input type="color" id="favColor"><br>
+                Time Format: 
+                <select id="timeFormat">
+                    <option value="12">12 Hour</option>
+                    <option value="24">24 Hour</option>
+                </select><br>
+                <input type="submit" value="Save Preferences">
+            </form>
+        </div>
+
+        <!-- Live Clock Section -->
+        <div class="card" id="clockSection" style="display:none;">
+            <h2>Live Clock</h2>
+            <p id="liveClock" style="font-size:24px;"></p>
+        </div>
+
+        <!-- Calculator -->
+        <div class="card" id="calcSection" style="display:none;">
+            <h2>Calculator</h2>
+            <input type="number" id="num1" placeholder="First number">
+            <input type="number" id="num2" placeholder="Second number">
+            <select id="operation">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <button onclick="calculate()">Calculate</button>
+            <p id="calcResult"></p>
+        </div>
+
+        <!-- Background Color Switcher -->
+        <div class="card" id="bgSection" style="display:none;">
+            <h2>Change Background Color</h2>
+            <select onchange="changeBackground(this.value)">
+                <option value="#f4f4f9">Default</option>
+                <option value="lightblue">Light Blue</option>
+                <option value="lightgreen">Light Green</option>
+                <option value="lightpink">Light Pink</option>
+            </select>
+        </div>
+
+        <!-- Image Switcher -->
+        <div class="card" id="imgSection" style="display:none;">
+            <h2>Image Switcher</h2>
+            <img id="switchImage" src="images/autonomous_vech.png" width="150"><br>
+            <button onclick="changeImage('images/autonomous_vech.png')">Image 1</button>
+            <button onclick="changeImage('images/banking.png')">Image 2</button>
+        </div>
+
+        <!-- Behavioral Interactions -->
+        <div class="card" id="behaviorSection" style="display:none;">
+            <h2>Behavioral Interactions</h2>
+            <p id="textBehavior">Watch me change or hide!</p>
+            <button onclick="hideText()">Hide</button>
+            <button onclick="showText()">Show</button>
+            <button onclick="animateText()">Animate</button>
+        </div>
+
+    </div>
+
+    <script>
+        let preferredFormat = "12"; // default time format
+
+        // Show selected section
+        function showSection(sectionId) {
+            document.querySelectorAll('.card').forEach(card => card.style.display = "none");
+            document.getElementById(sectionId).style.display = "block";
+        }
+
+        // Handle user preferences form
+        document.getElementById("userForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let name = document.getElementById("username").value;
+            let color = document.getElementById("favColor").value;
+            preferredFormat = document.getElementById("timeFormat").value;
+            alert(`Hello ${name}, your favorite color is ${color} and time format is ${preferredFormat}-hour`);
+        });
+
+        // Live Clock with 12/24 hour toggle
+        function updateClock() {
+            let now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+
+            if (preferredFormat === "12") {
+                let ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12 || 12;
+                document.getElementById("liveClock").innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
+            } else {
+                hours = hours.toString().padStart(2, '0');
+                document.getElementById("liveClock").innerText = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        setInterval(updateClock, 1000);
+
+        // Calculator
+        function calculate() {
+            let a = parseFloat(document.getElementById("num1").value);
+            let b = parseFloat(document.getElementById("num2").value);
+            let op = document.getElementById("operation").value;
+            if (!isNaN(a) && !isNaN(b)) {
+                let result;
+                switch(op) {
+                    case "+": result = a + b; break;
+                    case "-": result = a - b; break;
+                    case "*": result = a * b; break;
+                    case "/": result = b !== 0 ? a / b : "Error"; break;
+                }
+                document.getElementById("calcResult").innerText = "Result: " + result;
+            } else {
+                document.getElementById("calcResult").innerText = "Enter valid numbers.";
+            }
+        }
+
+        // Change background
+        function changeBackground(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        // Change image
+        function changeImage(src) {
+            document.getElementById("switchImage").src = src;
+        }
+
+        // Behavioral interactions
+        function hideText() {
+            document.getElementById("textBehavior").style.display = "none";
+        }
+        function showText() {
+            document.getElementById("textBehavior").style.display = "block";
+        }
+        function animateText() {
+            let el = document.getElementById("textBehavior");
+            el.style.transition = "transform 0.5s";
+            el.style.transform = "scale(1.5)";
+            setTimeout(() => el.style.transform = "scale(1)", 500);
+        }
+    </script>
+</body>
+</html>
